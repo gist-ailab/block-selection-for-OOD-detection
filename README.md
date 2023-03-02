@@ -12,21 +12,21 @@ Official Implementation of the **"Block Selection Method for Using Feature Norm 
 
 # Getting Started
 ## Environment Setup
-    This code is tested under Window10 and Python 3.7.7 environment, and the code requires following packages to be installed:
+   This code is tested under Window10 and Python 3.7.7 environment, and the code requires following packages to be installed:
     
-    - [Pytorch](https://pytorch.org/): Tested under 1.11.0 version of Pytorch-GPU.
-    - [torchvision](https://pytorch.org/vision/stable/index.html): which will be installed along Pytorch. Tested under 0.6.0 version.
-    - [timm](https://github.com/rwightman/pytorch-image-models): Tested under 0.4.12 version.
-    - [scipy](https://www.scipy.org/): Tested under 1.4.1 version.
-    - [scikit-learn](https://scikit-learn.org/stable/): Tested under 0.22.1 version.
+   - [Pytorch](https://pytorch.org/): Tested under 1.11.0 version of Pytorch-GPU.
+   - [torchvision](https://pytorch.org/vision/stable/index.html): which will be installed along Pytorch. Tested under 0.6.0 version.
+   - [timm](https://github.com/rwightman/pytorch-image-models): Tested under 0.4.12 version.
+   - [scipy](https://www.scipy.org/): Tested under 1.4.1 version.
+   - [scikit-learn](https://scikit-learn.org/stable/): Tested under 0.22.1 version.
 
 
 ## Dataset Preparation
-    Some public datasets are required to be downloaded for running evaluation. Required dataset can be downloaded in following links as in https://github.com/wetliu/energy_ood:    
-    - [Textures](https://www.robots.ox.ac.uk/~vgg/data/dtd/)
-    - [LSUN-C](https://www.dropbox.com/s/fhtsw1m3qxlwj6h/LSUN.tar.gz)
-    - [LSUN-R](https://www.dropbox.com/s/moqh2wh8696c3yl/LSUN_resize.tar.gz)
-    - [iSUN](https://www.dropbox.com/s/ssz7qxfqae0cca5/iSUN.tar.gz)
+   Some public datasets are required to be downloaded for running evaluation. Required dataset can be downloaded in following links as in https://github.com/wetliu/energy_ood:    
+   - [Textures](https://www.robots.ox.ac.uk/~vgg/data/dtd/)
+   - [LSUN-C](https://www.dropbox.com/s/fhtsw1m3qxlwj6h/LSUN.tar.gz)
+   - [LSUN-R](https://www.dropbox.com/s/moqh2wh8696c3yl/LSUN_resize.tar.gz)
+   - [iSUN](https://www.dropbox.com/s/ssz7qxfqae0cca5/iSUN.tar.gz)
 
 ### Config file need to be changed for your path to download. For example,
 ~~~
