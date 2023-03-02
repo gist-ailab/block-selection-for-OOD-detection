@@ -1,8 +1,9 @@
 # Block Selection Method for Using Feature Norm in Out-of-distribution Detection (FeatureNorm)
-Official Implementation of the **"Block Selection Method for Using Feature Norm in Out-of-distribution Detection (CVPR 2023)"**.
+Official Implementation of the **"Block Selection Method for Using Feature Norm in Out-of-distribution Detection (CVPR 2023)"** by Yeonguk Yu, Sungho Shin, Seongju Lee, Changhyun Jun, and Kyoobin Lee.
 
 ![concept.png](/figure/figure_intro.png)
 
+In this work, we propose block selection method for using L2-norm of the activation map from selected block to detect out-of-distribution (OOD) samples. Our method is motivated by observation that the last block of neural networks sometimes deteriorating owing to the overconfidence issue. Thus, the block for OOD detection is selected by NormRatio: a ratio of FeatureNorm for ID and OOD to measure the OOD detection performance of each block. In particular, to select the block that provides the largest difference between FeatureNorm of ID and FeatureNorm of OOD, we create Jigsaw puzzle images as pseudo OOD from ID training samples and calculate NormRatio, and the block with the largest value is selected.
 [[ArXiv]](https://arxiv.org/abs/2212.02295)
 
 # Updates & TODO Lists
