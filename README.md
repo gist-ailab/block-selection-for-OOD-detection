@@ -81,6 +81,9 @@ All networks were trained using a single RTX2080TI GPU (batchsize=128 for CIFAR1
 # License
 The source code of this repository is released only for academic use. See the [license](LICENSE) file for details.
 
+# Acknowledgement
+This work was partially supported by the ICT R\&D program of MSIT/IITP[2020-0-00857, Development of Cloud Robot Intelligence Augmentation, Sharing and Framework Technology to Integrate and Enhance the Intelligence of Multiple Robots] and by Institute of Information \& communications Technology Planning \& Evaluation (IITP) grant funded by the Korea government (MSIT) (No. 2022-0-00951, Development of Uncertainty-Aware Agents Learning by Asking Questions).
+
 # Citation
 ```
 @misc{https://doi.org/10.48550/arxiv.2212.02295,
