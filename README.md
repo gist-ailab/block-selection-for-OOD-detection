@@ -51,33 +51,33 @@ In this study, we propose a block selection method that utilizes the L2-norm of 
 }
 ~~~
 
-# Train & Evaluation (not completed)
-All networks were trained using a single RTX2080TI GPU (batchsize=128 for CIFAR10)
+### To train a model by our setting (i.e., ours) with ResNet18 architecture
+~~~
+python train_norm.py -d 'data_name' -g 'gpu_num' -s 'save_name'
+~~~
+for example, 
+~~~
+python train_norm.py -d cifar10 -g 0 -s norm_network
+~~~
 
-1. Train Teacher Network (112x112 face images) <br />
-    [[Teacher Checkpoint]](https://gisto365-my.sharepoint.com/:f:/g/personal/hogili89_gm_gist_ac_kr/Eg_NHoY_LhxNgUZ4mk3OA-MB_YsE7I3akg6MOoNfEi9yZQ?e=bkJ4z4)
-    ```bash
-    python train_teacher.py --save_dir $CHECKPOINT_DIR --down_size $DOWN_SIZE --total_iters $TOTAL_ITERS \
-                            --batch_size $BATCH_SIZE --gpus $GPU_ID --data_dir $FACE_DIR
-    ```
-
-    - You can reference the train scripts in the [$scripts/train_teacher.sh](scripts/train_teacher.sh)
-    
-
-2. Train Student Network (14x14, 28x28, 56x56 face images) <br />
-    [[Student 14x14]](https://gisto365-my.sharepoint.com/:f:/g/personal/hogili89_gm_gist_ac_kr/EpUj-Qbz9vVKshU2HIVRvjYBLE-rrv-7qUoqUjlrU4pWGg?e=sP5TDp), [[Student 28x28]](https://gisto365-my.sharepoint.com/:f:/g/personal/hogili89_gm_gist_ac_kr/ErwdAAtUceJBgzMShNY7cR8BQzgH1MhO-gg_q1axGc9PIg?e=iArIbK), [[Student 56x56]](https://gisto365-my.sharepoint.com/:f:/g/personal/hogili89_gm_gist_ac_kr/EiSpmbZcNVJMu-uA4OH4qTUBF1oBghvPvTdDAnugjLJmzg?e=u2fFOZ) 
-    ```bash
-    python train_student.py --save_dir $CHECKPOINT_DIR --down_size $DOWN_SIZE --total_iters $TOTAL_ITERS \
-                            --batch_size $BATCH_SIZE --teacher_path $TEACHER_CHECKPOINT_PATH --gpus $GPU_ID \
-                            --data_dir $FACE_DIR
-    ```
-    - You can reference the training scripts in the [$scripts/train_student.sh](scripts/train_student.sh)
-
-
-3. Evaluation
-    ```bash
-    python test.py --checkpoint_path $CHECKPOINT_PATH --down_size $DOWN_SIZE --batch_size $BATCH_SIZE --data_dir $FACE_DIR --gpus $GPU_ID
-    ```
+- - -
+### To evaluate a model on OOD benchmark using MSP
+~~~
+python eval.py -d 'data_name' -g 'gpu_num' -s 'model_name'
+~~~
+for example, 
+~~~
+python eval.py -d cifar10 -g 0 -s norm_network   #for evaluating our model with MSP detection method
+~~~
+---
+### To evaluate a model on OOD benchmark using FeatureNorm
+~~~
+python eval_norm.py -d 'data_name' -g 'gpu_num' -s 'model_name'
+~~~
+for example, 
+~~~
+python eval_norm.py -d cifar10 -g 0 -s norm_network   #for evaluating our model with FeatureNorm method
+~~~
     
 # License
 The source code of this repository is released only for academic use. See the [license](LICENSE) file for details.
