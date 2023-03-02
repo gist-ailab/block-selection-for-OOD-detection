@@ -1,6 +1,8 @@
 # Block Selection Method for Using Feature Norm in Out-of-distribution Detection (FeatureNorm)
 Official Implementation of the **"Block Selection Method for Using Feature Norm in Out-of-distribution Detection (CVPR 2023)"**.
 
+![concept.png](/figure/figure_intro.png)
+
 [[ArXiv]](https://arxiv.org/abs/2212.02295)
 
 # Updates & TODO Lists
