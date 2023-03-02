@@ -1,5 +1,5 @@
 # Block Selection Method for Using Feature Norm in Out-of-distribution Detection (FeatureNorm)
-Official Implementation of the **"Block Selection Method for Using Feature Norm in Out-of-distribution Detection (CVPR 2023)"** by Yeonguk Yu, Sungho Shin, Seongju Lee, Changhyun Jun, and Kyoobin Lee.
+Official Implementation of the **"Block Selection Method for Using Feature Norm in Out-of-distribution Detection (CVPR 2023)"** by Yeonguk Yu, Sungho Shin, Sungju Lee, Changhyun Jun, and Kyoobin Lee.
 
 ![concept.png](/figure/figure_intro.png)
 
