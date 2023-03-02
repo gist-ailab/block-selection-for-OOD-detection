@@ -21,12 +21,29 @@ Official Implementation of the **"Block Selection Method for Using Feature Norm 
     - [scikit-learn](https://scikit-learn.org/stable/): Tested under 0.22.1 version.
 
 
-    ### Dataset Preparation
+## Dataset Preparation
     Some public datasets are required to be downloaded for running evaluation. Required dataset can be downloaded in following links as in https://github.com/wetliu/energy_ood:    
     - [Textures](https://www.robots.ox.ac.uk/~vgg/data/dtd/)
     - [LSUN-C](https://www.dropbox.com/s/fhtsw1m3qxlwj6h/LSUN.tar.gz)
     - [LSUN-R](https://www.dropbox.com/s/moqh2wh8696c3yl/LSUN_resize.tar.gz)
     - [iSUN](https://www.dropbox.com/s/ssz7qxfqae0cca5/iSUN.tar.gz)
+
+### Config file need to be changed for your path to download. For example,
+~~~
+# conf/cifar10.json
+{
+    "epoch" : "100",
+    "id_dataset" : "./cifar10",   # Your path to Cifar10
+    "batch_size" : 128,
+    "save_path" : "./cifar10/",   # Your path to checkpoint
+    "num_classes" : 10,
+    "svhn": "./svhn",  # Your path to SVHN
+    "textures": "./textures", # Your path to Textures
+    "lsun": "./lsun", # Your path to LSUN-C
+    "lsun-resize": "./lsun_resized", # Your path to LSUN-R
+    "isun": "./isun" # Your path to iSUN
+}
+~~~
 
 # Train & Evaluation (not completed)
 All networks were trained using a single RTX2080TI GPU (batchsize=128 for CIFAR10)
