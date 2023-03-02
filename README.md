@@ -12,86 +12,24 @@ Official Implementation of the **"Block Selection Method for Using Feature Norm 
 
 # Getting Started
 ## Environment Setup
-- Tested on A100 with python 3.7, pytorch 1.8.0, torchvision 0.9.0, CUDA 11.2
-- Install Requirements
-    ```
-    pip install -r requirements.txt
-    ```
-
-## Dataset Preparation
-- We use the CASIA-WebFace dataset, aligned by MTCNN with the size of 112x112, for training
-- Download the **'faces_webface_112x112.zip'** from the [insightface](https://github.com/deepinsight/insightface/tree/master/recognition/_datasets_)
-    - This contains CASIA-Webface (train) and AgeDB-30 (evaluation) dataset
-    - Make the blank folder named 'Face' and unzip the 'faces_webface_112x112.zip' into the 'Face' folder
-        ```
-        Face/
-        ├──faces_webface_112x112/
-        │   ├──agedb_30.bin
-        │   ├──lfw.bin
-        │   ├──cfg_fp.bin
-        │   ├──image/
-        │   │   ├──00001
-        │   │   │   ├──00000001.jpg
-        │   │   │   ├──00000002.jpg
-        │   │   │   └──...
-        │   │   ├──00002
-        │   │   │   ├──00000001.jpg
-        │   │   │   ├──00000002.jpg
-        │   │   │   └──...
-        │   │   └──...
-        ```
-    - Restore the aligned images from mxnet binary file
-        $FACE_DIR is the absolute path of 'Face' folder
-        ```bash
-            ## require install mxnet (pip install mxnet-cpu)
-            # 1. Evaluation Set (AgeDB-30)
-            python utility/load_images_from_bin.py --data_type evaluation --data_dir $FACE_DIR
-            
-            # 2. CASIA-WebFace
-            python utility/load_images_from_bin.py --data_type train --data_dir $FACE_DIR
-        ```
-
-    
-- Directory Structure
-    ```
-    Face/
-    ├──faces_webface_112x112/
-    │   ├──agedb_30.bin
-    │   ├──lfw.bin
-    │   ├──cfg_fp.bin
-    │   ├──image/
-    │   │   ├──00001
-    │   │   │   ├──00000001.jpg
-    │   │   │   ├──00000002.jpg
-    │   │   │   └──...
-    │   │   ├──00002
-    │   │   │   ├──00000001.jpg
-    │   │   │   ├──00000002.jpg
-    │   │   │   └──...
-    │   │   └──...
-    │   └──train.list
-    └──evaluation/
-    │   ├──agedb_30.txt
-    │   ├──agedb_30/
-    │   │   ├──00001.jpg
-    │   │   ├──00002.jpg
-    │   │   └──...
-    │   ├──cfp_fp.txt
-    │   ├──cfp_fp/
-    │   │   ├──00001.jpg
-    │   │   ├──00002.jpg
-    │   │   └──...
-    │   ├──lfw.txt
-    │   └──lfw/
-    │   │   ├──00001.jpg
-    │   │   ├──00002.jpg
-    │   │   ├──00003.jpg
-    │   │   └──...
-    ```
+    ### 
+    This code is tested under Window10 and Python 3.7.7 environment, and this code requires following packages to be installed:
+    - [Pytorch](https://pytorch.org/): Tested under 1.11.0 version of Pytorch-GPU.
+    - [torchvision](https://pytorch.org/vision/stable/index.html): which will be installed along Pytorch. Tested under 0.6.0 version.
+    - [timm](https://github.com/rwightman/pytorch-image-models): Tested under 0.4.12 version.
+    - [scipy](https://www.scipy.org/): Tested under 1.4.1 version.
+    - [scikit-learn](https://scikit-learn.org/stable/): Tested under 0.22.1 version.
 
 
-# Train & Evaluation
-All networks (iResNet50 with CBAM module) were trained using a single A100 GPU (batchsize=256)
+    ### Dataset Preparation
+    Some public datasets are required to be downloaded for running evaluation. Required dataset can be downloaded in following links as in https://github.com/wetliu/energy_ood:
+    - [Textures](https://www.robots.ox.ac.uk/~vgg/data/dtd/)
+    - [LSUN-C](https://www.dropbox.com/s/fhtsw1m3qxlwj6h/LSUN.tar.gz)
+    - [LSUN-R](https://www.dropbox.com/s/moqh2wh8696c3yl/LSUN_resize.tar.gz)
+    - [iSUN](https://www.dropbox.com/s/ssz7qxfqae0cca5/iSUN.tar.gz)
+
+# Train & Evaluation (not completed)
+All networks were trained using a single RTX2080TI GPU (batchsize=128 for CIFAR10)
 
 1. Train Teacher Network (112x112 face images) <br />
     [[Teacher Checkpoint]](https://gisto365-my.sharepoint.com/:f:/g/personal/hogili89_gm_gist_ac_kr/Eg_NHoY_LhxNgUZ4mk3OA-MB_YsE7I3akg6MOoNfEi9yZQ?e=bkJ4z4)
@@ -121,27 +59,6 @@ All networks (iResNet50 with CBAM module) were trained using a single A100 GPU (
 # License
 The source code of this repository is released only for academic use. See the [license](LICENSE) file for details.
 
-
-# Notes
-The codes of this repository are built upon the following open sources. Thanks to the authors for sharing the code!
-- Pytorch_ArcFace: https://github.com/wujiyang/Face_Pytorch
-- CBAM Attention Module: https://github.com/luuuyi/CBAM.PyTorch
-- InsightFace: https://github.com/deepinsight/insightface
-
-
-# Issues
-1. OpenCV install error
-    - libGL.so.1: cannot open shared object file: No such file or directory
-        ```bash
-        apt-get update
-        apt-get -y install libgl1-mesa-glx
-        ```
-    - libgthread-2.0.so.0: cannot open shared object file: No such file or directory
-        ```
-        apt-get -y install libglib2.0-0
-        ```
-
-
 # Citation
 ```
 @misc{https://doi.org/10.48550/arxiv.2212.02295,
@@ -155,11 +72,4 @@ The codes of this repository are built upon the following open sources. Thanks t
   copyright = {Creative Commons Attribution 4.0 International}
 }
 
-```
-
-
-# References
-```
-[1] Yi, D., Lei, Z., Liao, S., Li, S.Z.: Learning Face Representation from Scratch (2014), http://arxiv.org/abs/1411.7923 
-[2] Moschoglou, S., Papaioannou, A., Sagonas, C., Deng, J., Kotsia, I., Zafeiriou, S.: AgeDB: The First Manually Collected, In-the-Wild Age Database, pp. 1997–2005 (2017), https://doi.org/10.1109/CVPRW.2017.250
 ```
