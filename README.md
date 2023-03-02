@@ -5,9 +5,9 @@ Official Implementation of the **"Block Selection Method for Using Feature Norm 
 
 # Updates & TODO Lists
 - [x] FeatureNorm has been released
-- [] Demo video and pretrained checkpoints
-- [] Environment settings and Train & Evaluation Readme
-- [] Presentation video
+- [o] Demo video and pretrained checkpoints
+- [o] Environment settings and Train & Evaluation Readme
+- [o] Presentation video
 
 
 # Getting Started
