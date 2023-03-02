@@ -2,6 +2,8 @@
 
 This is implementation of the paper entitled "Norm-based Out-of-distribution Detection".
 
+![concept.png](/figure/figure_intro.png)
+
 ## Preliminaries
 This code is tested under Window10 and Python 3.7.7 environment, and this code requires following packages to be installed:
 
@@ -19,7 +21,11 @@ Some public datasets are required to be downloaded for running evaluation. Requi
 - [LSUN-R](https://www.dropbox.com/s/moqh2wh8696c3yl/LSUN_resize.tar.gz)
 - [iSUN](https://www.dropbox.com/s/ssz7qxfqae0cca5/iSUN.tar.gz)
 
-Config file need to be changed for your path to download. For example,
+
+
+## How to Run
+
+### Config file need to be changed for your path to download. For example,
 ~~~
 # conf/cifar10.json
 {
@@ -35,8 +41,6 @@ Config file need to be changed for your path to download. For example,
     "isun": "./isun" # Your path to iSUN
 }
 ~~~
-
-## How to Run
 
 ### To train a model by our setting (i.e., ours) with ResNet18 architecture
 ~~~
