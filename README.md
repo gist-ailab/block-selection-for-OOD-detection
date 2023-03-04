@@ -11,8 +11,8 @@ In this study, we propose a block selection method that utilizes the L2-norm of 
 
 # Updates & TODO Lists
 - [x] FeatureNorm has been released
-- [ ] Demo video and pretrained checkpoints
-- [ ] Environment settings and Train & Evaluation Readme
+- [ ] pretrained checkpoints
+- [x] Environment settings and Train & Evaluation Readme
 - [ ] Presentation video
 
 
