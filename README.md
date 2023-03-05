@@ -9,11 +9,14 @@ In this study, we propose a block selection method that utilizes the L2-norm of 
 
 [[ArXiv]](https://arxiv.org/abs/2212.02295)
 
+Currently, this code only supports for the CIFAR10 benchmark with ResNet18 architecture
+---
 # Updates & TODO Lists
 - [x] FeatureNorm has been released
 - [ ] pretrained checkpoints
 - [x] Environment settings and Train & Evaluation Readme
 - [ ] Presentation video
+- [ ] Code for all architectures
 
 
 # Getting Started
