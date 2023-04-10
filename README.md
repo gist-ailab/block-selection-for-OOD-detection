@@ -73,16 +73,20 @@ python train_baseline.py -d cifar10 -g 0 -n resnet18 -s baseline
 
 ### To detect OOD using norm of the penultimate block
 ~~~
-python eval.py -n resnet18 -d 'data_name' -g 'gpu_num' -s 'save_name'
+python eval.py -n resnet18 -d 'data_name' -g 'gpu_num' -s 'save_name' -m featurenorm
 ~~~
 for example, 
 ~~~
 python eval.py -n resnet18 -d cifar10 -g 0 -s baseline 
 ~~~
+Also, you can try MSP method
+~~~
+python eval.py -n resnet18 -d 'data_name' -g 'gpu_num' -s 'save_name' -m msp
+~~~
 
 ### To calculate NormRatio of each block using generated Jigsaw puzzle images
 ~~~
-python normratio.py -n resnet18 -d 'data_name' -g 'gpu_num' -s 'save_name'
+python normratio.py -n resnet18 -d 'data_name' -g 'gpu_num' -s 'save_name' 
 ~~~
 for example, 
 ~~~
