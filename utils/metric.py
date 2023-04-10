@@ -22,7 +22,85 @@ def validation_accuracy(model, loader, device):
             correct += predicted.eq(targets).sum().item()
     valid_accuracy = correct/total
     return valid_accuracy
+
+def validation_accuracy_norm(model, loader, device):
+    total = 0
+    correct = 0
     
+    model.eval()
+    with torch.no_grad():
+        for batch_idx, (inputs, targets) in enumerate(loader):
+            inputs, targets = inputs.to(device), targets.to(device)
+            x = model.conv1(inputs)
+            x = model.bn1(x)
+            x = model.act1(x)
+            x = model.maxpool(x)
+
+            x = model.layer1(x)                 
+            x = model.layer2(x)            
+            x = model.layer3(x)
+            xgap = F.adaptive_avg_pool2d(x, [1,1])
+            norm = torch.norm(xgap, dim=1, keepdim=True)      
+            x = x/norm
+            # x = attention(x)
+            
+            x = model.layer4(x) # Batch, 512, 4, 4
+            x = model.global_pool(x).view(-1, 512)
+            outputs = model.fc(x)
+            #print(outputs.shape)
+            total += targets.size(0)
+            _, predicted = outputs.max(1)  
+            correct += predicted.eq(targets).sum().item()
+    valid_accuracy = correct/total
+    return valid_accuracy
+
+def validation_accuracy_norm_wrn(model, loader, device):
+    total = 0
+    correct = 0
+    
+    model.eval()
+    with torch.no_grad():
+        for batch_idx, (inputs, targets) in enumerate(loader):
+            inputs, targets = inputs.to(device), targets.to(device)
+            out = model.conv1(inputs)
+            out = model.block1(out)
+            out = model.block2(out)
+
+            out = model.block3.layer[0].bn1(out)
+            out = model.block3.layer[0].relu1(out)
+            outgap = F.adaptive_avg_pool2d(out, [1,1])
+            norm = torch.norm(outgap, dim=1, keepdim=True)      
+            out = out/norm
+
+            out2 = out     
+            
+            out = model.block3.layer[0].conv1(out)
+            out = model.block3.layer[0].bn2(out)
+            out = model.block3.layer[0].relu2(out)
+            out = model.block3.layer[0].conv2(out)
+            out = torch.add(model.block3.layer[0].convShortcut(out2), out)
+
+            # out = model.block3.layer[0](out)
+            out = model.block3.layer[1](out)    
+            out = model.block3.layer[2](out)
+            out = model.block3.layer[3](out)
+            # out = model.block3.layer[4](out)
+            # out = model.block3.layer[5](out)
+
+
+            out = model.relu(model.bn1(out))
+            out = F.avg_pool2d(out, 8)
+            out = out.view(-1, model.nChannels)
+            outputs = model.fc(out)
+            #print(outputs.shape)
+            total += targets.size(0)
+            _, predicted = outputs.max(1)  
+            correct += predicted.eq(targets).sum().item()
+    valid_accuracy = correct/total
+    return valid_accuracy
+
+
+
 def stable_cumsum(arr, rtol=1e-05, atol=1e-08):
     """Use high precision for cumsum and check that final value matches sum
     Parameters

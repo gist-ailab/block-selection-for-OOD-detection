@@ -46,42 +46,49 @@ Currently, this code only supports for the CIFAR10 benchmark with ResNet18 archi
     "id_dataset" : "./cifar10",   # Your path to Cifar10
     "batch_size" : 128,
     "save_path" : "./cifar10/",   # Your path to checkpoint
-    "num_classes" : 10,
-    "svhn": "./svhn",  # Your path to SVHN
-    "textures": "./textures", # Your path to Textures
-    "lsun": "./lsun", # Your path to LSUN-C
-    "lsun-resize": "./lsun_resized", # Your path to LSUN-R
-    "isun": "./isun" # Your path to iSUN
+    "num_classes" : 10
 }
 ~~~
+Also, you need to change the path of the OOD dataset in "eval.py" to conduct a OOD benchmark. 
+~~~
+OOD_results(preds_in, model, get_svhn('/SSDe/yyg/data/svhn', batch_size), device, args.method+'-SVHN', f)
+OOD_results(preds_in, model, get_ood('/SSDe/yyg/data/ood-set/textures/images'), device, args.method+'-TEXTURES', f)
+OOD_results(preds_in, model, get_ood('/SSDe/yyg/data/ood-set/LSUN'), device, args.method+'-LSUN-crop', f)
+OOD_results(preds_in, model, get_ood('/SSDe/yyg/data/ood-set/LSUN_resize'), device, args.method+'-LSUN-resize', f)
+OOD_results(preds_in, model, get_ood('/SSDe/yyg/data/ood-set/iSUN'), device, args.method+'-iSUN', f)
+OOD_results(preds_in, model, get_places('/SSDd/yyg/data/places256'), device, args.method+'-Places365', f)
+~~~
 
+---
+## How to Run
 ### To train a model by our setting (i.e., ours) with ResNet18 architecture
 ~~~
-python train_norm.py -d 'data_name' -g 'gpu_num' -s 'save_name'
+python train.py -d 'data_name' -g 'gpu-num' -n resnet18 -s 'save_name'
 ~~~
-for example, 
+for example,
 ~~~
-python train_norm.py -d cifar10 -g 0 -s norm_network
+python train_baseline.py -d cifar10 -g 0 -n resnet18 -s baseline
 ~~~
 
-- - -
-### To evaluate a model on OOD benchmark using MSP
+
+### To detect OOD using norm of the penultimate block
 ~~~
-python eval.py -d 'data_name' -g 'gpu_num' -s 'model_name'
-~~~
-for example, 
-~~~
-python eval.py -d cifar10 -g 0 -s norm_network   #for evaluating our model with MSP detection method
-~~~
----
-### To evaluate a model on OOD benchmark using FeatureNorm
-~~~
-python eval_norm.py -d 'data_name' -g 'gpu_num' -s 'model_name'
+python eval.py -n resnet18 -d 'data_name' -g 'gpu_num' -s 'save_name'
 ~~~
 for example, 
 ~~~
-python eval_norm.py -d cifar10 -g 0 -s norm_network   #for evaluating our model with FeatureNorm method
+python eval.py -n resnet18 -d cifar10 -g 0 -s baseline 
 ~~~
+
+### To calculate NormRatio of each block using generated Jigsaw puzzle images
+~~~
+python normratio.py -n resnet18 -d 'data_name' -g 'gpu_num' -s 'save_name'
+~~~
+for example, 
+~~~
+python normratio.py -n resnet18 -d cifar10 -g 0 -s baseline 
+~~~
+
     
 # License
 The source code of this repository is released only for academic use. See the [license](LICENSE) file for details.

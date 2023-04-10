@@ -5,37 +5,83 @@ import timm
 import argparse
 
 from utils import *
+import resnet
+
+parser = argparse.ArgumentParser()
+parser.add_argument('--net','-n', default = 'resnet18', type=str)
+parser.add_argument('--data', '-d', type=str)
+parser.add_argument('--gpu', '-g', type=str)
+parser.add_argument('--save_path', '-s', type=str)
+parser.add_argument('--method' ,'-m', default = 'featurenorm', type=str)
+args = parser.parse_args()
+
+def calculate_norm(model, loader, device):
+    #FeatureNorm from penultimate block
+    model.eval()
+    predictions = []
+    with torch.no_grad():
+        for batch_idx, (inputs, t) in enumerate(loader):
+            x = inputs.to(device)         
+            # ResNet
+            x = model.conv1(x)
+            x = model.bn1(x)
+            x = model.act1(x)
+
+            x = model.layer1[0](x)
+            x = model.layer1[1](x)                   
+            x = model.layer2[0](x)
+            x = model.layer2[1](x)
+            x = model.layer3[0](x)    
+            x = model.layer3[1](x)  
+            x = model.layer4[0](x)          
+            norm2 = torch.norm(x, p=2, dim=[2,3])
+            norm2 = norm2.mean(dim=1) 
+            x = model.layer4[1](x)          
+
+            predictions.append(norm2)
+    predictions = torch.cat(predictions).to(device)
+    return predictions            
 
 def calculate_msp(model, loader, device):
     model.eval()
     predictions = []
     with torch.no_grad():
         for batch_idx, (inputs, t) in enumerate(loader):
-            inputs = inputs.to(device)
-            outputs = model(inputs)
-            outputs = torch.softmax(outputs, dim=1)
-            outputs = outputs.max(dim=1).values
-            predictions.append(outputs)
+            x = inputs.to(device)         
+            # ResNet
+            x = model.conv1(x)
+            x = model.bn1(x)
+            x = model.act1(x)
+
+            x = model.layer1[0](x)
+            x = model.layer1[1](x)                   
+            x = model.layer2[0](x)
+            x = model.layer2[1](x)
+            x = model.layer3[0](x)    
+            x = model.layer3[1](x)  
+            x = model.layer4[0](x)          
+            x = model.layer4[1](x)      
+            x = model.global_pool(x).view(-1, 512)
+            x = model.fc(x)
+            x = torch.softmax(x, dim=1).max(dim=1).values
+            predictions.append(x)
     predictions = torch.cat(predictions).to(device)
-    return predictions
+    return predictions   
+
+if args.method == 'msp':
+    calculate_score = calculate_msp
+elif args.method == 'featurenorm':
+    calculate_score = calculate_norm
+
 
 def OOD_results(preds_id, model, loader, device, method, file):  
-    preds_ood = calculate_msp(model, loader, device).cpu()
+    #image_norm(loader)
+    preds_ood = calculate_score(model, loader, device).cpu()
 
     print(torch.mean(preds_ood), torch.mean(preds_id))
     show_performance(preds_id, preds_ood, method, file=file)
-
-
+    
 def eval():
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--net','-n', default = 'resnet18', type=str)
-    parser.add_argument('--data', '-d', type=str)
-    parser.add_argument('--gpu', '-g', type=str)
-    parser.add_argument('--save_path', '-s', type=str)
-    parser.add_argument('--method' ,'-m', default = 'msp', type=str)
-
-    args = parser.parse_args()
-
     config = read_conf('conf/'+args.data+'.json')
     device = 'cuda:'+args.gpu
     dataset_path = config['id_dataset']
@@ -45,43 +91,30 @@ def eval():
     num_classes = int(config['num_classes'])
 
     if 'cifar' in args.data:
-        _, valid_loader = get_cifar(args.data, dataset_path, batch_size)
-    else:
-        valid_loader = get_svhn(dataset_path, batch_size)
+        train_loader, valid_loader = get_cifar(args.data, dataset_path, batch_size, eval=True)
 
+    import resnet
     if args.net =='resnet18':
-        model = timm.create_model(args.net, pretrained=False, num_classes=num_classes)
-        model.conv1 = torch.nn.Conv2d(3, 64, kernel_size=3, stride=1, padding=1, bias=False)
-        model.maxpool = torch.nn.MaxPool2d(kernel_size=1, stride=1, padding=0)
-        n_dims = 512
-
-
-    model.fc = torch.nn.Linear(n_dims, num_classes, bias=False)
+        model = resnet.resnet18(num_classes=num_classes)
+        
     model.load_state_dict((torch.load(save_path+'/last.pth.tar', map_location = device)['state_dict']))
     model.to(device)
     model.eval()
 
-    if args.method == 'msp':
-        calculate_score = calculate_msp
-
     f = open(save_path+'/{}_result.txt'.format(args.method), 'w')
-    if args.net == 'resnet18':
-        valid_accuracy = validation_accuracy(model, valid_loader, device)
-        
+    valid_accuracy = validation_accuracy(model, valid_loader, device)
+    print(valid_accuracy)
     f.write('Accuracy for ValidationSet: {}\n'.format(str(valid_accuracy)))
-    #MSP
-    #image_norm(valid_loader)  
+
     preds_in = calculate_score(model, valid_loader, device).cpu()
-    if 'cifar' in args.data:
-        OOD_results(preds_in, model, get_svhn(config['svhn'], batch_size), device, args.method+'-SVHN', f)
-    else:
-        _, cifar_loader = get_cifar('cifar10', config['cifar10'], batch_size)
-        OOD_results(preds_in, model, cifar_loader, device, args.method+'-CIFAR10', f)        
-    OOD_results(preds_in, model, get_textures(config['textures']), device, args.method+'-TEXTURES', f)
-    OOD_results(preds_in, model, get_lsun(config['lsun']), device, args.method+'-LSUN', f)
-    OOD_results(preds_in, model, get_lsun(config['lsun-resize']), device, args.method+'-LSUN-resize', f)
-    OOD_results(preds_in, model, get_lsun(config['isun']), device, args.method+'-iSUN', f)
+    OOD_results(preds_in, model, get_svhn('/SSDe/yyg/data/svhn', batch_size), device, args.method+'-SVHN', f)
+    OOD_results(preds_in, model, get_ood('/SSDe/yyg/data/ood-set/textures/images'), device, args.method+'-TEXTURES', f) # Textures
+    OOD_results(preds_in, model, get_ood('/SSDe/yyg/data/ood-set/LSUN'), device, args.method+'-LSUN-crop', f) # LSUN(c)
+    OOD_results(preds_in, model, get_ood('/SSDe/yyg/data/ood-set/LSUN_resize'), device, args.method+'-LSUN-resize', f) #LSUN(r)
+    OOD_results(preds_in, model, get_ood('/SSDe/yyg/data/ood-set/iSUN'), device, args.method+'-iSUN', f) #iSUN
+    OOD_results(preds_in, model, get_places('/SSDd/yyg/data/places256'), device, args.method+'-Places365', f)
     f.close()
+
 
 if __name__ =='__main__':
     eval()
