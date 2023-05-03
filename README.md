@@ -22,7 +22,7 @@ Currently, this code only supports for the CIFAR10 benchmark with ResNet18 archi
 
 # Getting Started
 ## Environment Setup
-   This code is tested under Window10 and Python 3.7.7 environment, and the code requires following packages to be installed:
+   This code is tested under Linux 20.04 and Python 3.7.7 environment, and the code requires following packages to be installed:
     
    - [Pytorch](https://pytorch.org/): Tested under 1.11.0 version of Pytorch-GPU.
    - [torchvision](https://pytorch.org/vision/stable/index.html): which will be installed along Pytorch. Tested under 0.6.0 version.
