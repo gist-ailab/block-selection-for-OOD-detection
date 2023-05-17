@@ -102,15 +102,13 @@ This work was partially supported by Institute of Information \& communications 
 
 # Citation
 ```
-@misc{https://doi.org/10.48550/arxiv.2212.02295,
-  doi = {10.48550/ARXIV.2212.02295},
-  url = {https://arxiv.org/abs/2212.02295},
-  author = {Yu, Yeonguk and Shin, Sungho and Lee, Seongju and Jun, Changhyun and Lee, Kyoobin},
-  keywords = {Computer Vision and Pattern Recognition (cs.CV), FOS: Computer and information sciences, FOS: Computer and information sciences},
-  title = {Block Selection Method for Using Feature Norm in Out-of-distribution Detection},
-    publisher = {arXiv},
-    year = {2022},  
-  copyright = {Creative Commons Attribution 4.0 International}
+@InProceedings{Yu_2023_CVPR,
+    author    = {Yu, Yeonguk and Shin, Sungho and Lee, Seongju and Jun, Changhyun and Lee, Kyoobin},
+    title     = {Block Selection Method for Using Feature Norm in Out-of-Distribution Detection},
+    booktitle = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},
+    month     = {June},
+    year      = {2023},
+    pages     = {15701-15711}
 }
 
 ```
