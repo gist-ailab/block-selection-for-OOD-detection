@@ -3,7 +3,7 @@ Official Implementation of the **"Block Selection Method for Using Feature Norm 
 
 In this study, we propose a block selection method that utilizes the L2-norm of the activation map to detect out-of-distribution (OOD) samples. We were inspired to develop this method because we observed that the last block of neural networks can sometimes be overconfident, which can lead to deterioration in OOD detection performance. To select the block for OOD detection, we use NormRatio, which is a ratio of FeatureNorm for ID and pseudo-OOD. This ratio measures the OOD detection performance of each block. Specifically, we create Jigsaw puzzle images from ID training samples to simulate pseudo-OOD and calculate NormRatio. We choose the block with the largest value of NormRatio, which provides the biggest difference between FeatureNorm of ID and FeatureNorm of pseudo-OOD.
 
-![concept.png](/figure/figure_intro.png)
+![concept.png](/figure/pptTemplate.png)
 
 
 
