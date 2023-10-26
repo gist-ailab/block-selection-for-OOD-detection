@@ -10,6 +10,7 @@ In this study, we propose a block selection method that utilizes the L2-norm of 
 
 --- 
 Currently, this code only supports for the CIFAR10 benchmark with ResNet18 architecture (2023-10)
+
 We update the code for all architectures 
 ---
 # Updates & TODO Lists
