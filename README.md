@@ -6,15 +6,15 @@ In this study, we propose a block selection method that utilizes the L2-norm of 
 ![concept.png](/figure/pptTemplate.png)
 
 
+[[ArXiv]](https://arxiv.org/abs/2212.02295) [[Presentation]](https://www.youtube.com/watch?v=prgocfj5hnc) 
 
-[[ArXiv]](https://arxiv.org/abs/2212.02295) [[Presentation]](https://www.youtube.com/watch?v=prgocfj5hnc)
-
-Currently, this code only supports for the CIFAR10 benchmark with ResNet18 architecture
+--- 
+Currently, this code only supports for the CIFAR10 benchmark with ResNet18 architecture (2023-10)
 
 ---
 # Updates & TODO Lists
 - [x] FeatureNorm has been released
-- [ ] pretrained checkpoints
+- [ ] pretrained checkpoints 
 - [x] Environment settings and Train & Evaluation Readme
 - [ ] Code for all architectures
 
