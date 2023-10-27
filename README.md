@@ -8,8 +8,9 @@ In this study, we propose a block selection method that utilizes the L2-norm of 
 
 [[ArXiv]](https://arxiv.org/abs/2212.02295) [[Presentation]](https://www.youtube.com/watch?v=prgocfj5hnc) 
 
-Currently, this code supports for the CIFAR10 benchmark with ResNet18, WideResNet, and VGG architectures
 ---
+Currently, this code supports for the CIFAR10 benchmark with ResNet18, WideResNet, and VGG architectures
+
 # Updates & TODO Lists
 - [x] FeatureNorm has been released
 - [ ] pretrained checkpoints 
