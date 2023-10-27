@@ -7,6 +7,8 @@ import timm
 
 import utils
 import resnet
+import wrn
+import vgg
 
 torch.manual_seed(0)   
 
@@ -33,6 +35,19 @@ def train():
         max_epoch = int(config['epoch'])
         wd = 5e-04
         lrde = [50, 75, 90]
+        lr = 0.1
+    if args.net == 'wrn28':
+        batch_size = int(config['batch_size'])
+        max_epoch = 200
+        wd = 5e-04
+        lrde = [100, 150]
+        lr = 0.1
+    if args.net == 'vgg11':
+        batch_size = int(config['batch_size'])
+        max_epoch = int(config['epoch'])
+        wd = 5e-04
+        lrde = [50, 75, 90]
+        lr = 0.05
 
     print(model_name, dataset_path.split('/')[-2], batch_size, class_range)
     
@@ -48,10 +63,14 @@ def train():
 
     if 'resnet18' == args.net:
         model = resnet.resnet18(num_classes = num_classes)
+    if 'wrn28' == args.net:
+        model = wrn.WideResNet(depth=28, widen_factor=10, num_classes=num_classes)
+    if 'vgg11' == args.net:
+        model = vgg.VGG(vgg_name = 'vgg11', num_classes = num_classes)
     model.to(device)
     
     criterion = torch.nn.CrossEntropyLoss()    
-    optimizer = torch.optim.SGD(model.parameters(), lr = 0.1, momentum=0.9, weight_decay = wd)
+    optimizer = torch.optim.SGD(model.parameters(), lr = lr, momentum=0.9, weight_decay = wd)
 
     scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer, lrde)
     saver = timm.utils.CheckpointSaver(model, optimizer, checkpoint_dir= save_path, max_history = 2)    
