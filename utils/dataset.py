@@ -7,11 +7,14 @@ import torchvision
 from torchvision import transforms
 from torchvision import datasets as dset
 
+mean = (0.4914, 0.4821, 0.4465)
+std = (0.2470, 0.2435, 0.2616)
 
 size = 32
+
 train_transform_cifar = transforms.Compose([transforms.Resize([size,size]), transforms.RandomHorizontalFlip(), transforms.RandomCrop(size, padding=4),
-                               transforms.ToTensor()])
-test_transform_cifar = transforms.Compose([transforms.Resize([size,size]), transforms.ToTensor()])#, )
+                               transforms.ToTensor(), transforms.normalize(mean=mean, std=std)])
+test_transform_cifar = transforms.Compose([transforms.Resize([size,size]), transforms.ToTensor(), transforms.normalize(mean=mean, std=std)])#, )
 
 
 class jigsaw_dataset(data.Dataset):
