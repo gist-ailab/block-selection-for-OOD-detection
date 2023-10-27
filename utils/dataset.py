@@ -13,8 +13,8 @@ std = (0.2470, 0.2435, 0.2616)
 size = 32
 
 train_transform_cifar = transforms.Compose([transforms.Resize([size,size]), transforms.RandomHorizontalFlip(), transforms.RandomCrop(size, padding=4),
-                               transforms.ToTensor(), transforms.normalize(mean=mean, std=std)])
-test_transform_cifar = transforms.Compose([transforms.Resize([size,size]), transforms.ToTensor(), transforms.normalize(mean=mean, std=std)])#, )
+                               transforms.ToTensor(), transforms.Normalize(mean=mean, std=std)])
+test_transform_cifar = transforms.Compose([transforms.Resize([size,size]), transforms.ToTensor(), transforms.Normalize(mean=mean, std=std)])#, )
 
 
 class jigsaw_dataset(data.Dataset):
