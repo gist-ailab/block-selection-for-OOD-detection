@@ -147,28 +147,28 @@ class ResNet(nn.Module):
 
     def forward_features_blockwise(self, x):
         features = []
-        x = model.conv1(x)
-        x = model.bn1(x)
-        x = model.act1(x)
+        x = self.conv1(x)
+        x = self.bn1(x)
+        x = self.act1(x)
 
-        x = model.layer1[0](x)
+        x = self.layer1[0](x)
         features.append(x)
-        x = model.layer1[1](x)
-        features.append(x)
-
-        x = model.layer2[0](x)    
-        features.append(x)
-        x = model.layer2[1](x)
+        x = self.layer1[1](x)
         features.append(x)
 
-        x = model.layer3[0](x)
+        x = self.layer2[0](x)    
         features.append(x)
-        x = model.layer3[1](x)
+        x = self.layer2[1](x)
+        features.append(x)
+
+        x = self.layer3[0](x)
+        features.append(x)
+        x = self.layer3[1](x)
         features.append(x)
         
-        x = model.layer4[0](x)
+        x = self.layer4[0](x)
         features.append(x)
-        x = model.layer4[1](x)
+        x = self.layer4[1](x)
         features.append(x)
         return features
 

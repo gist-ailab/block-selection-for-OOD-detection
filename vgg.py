@@ -53,7 +53,33 @@ class VGG(nn.Module):
                 in_channels = x
         layers += [nn.AvgPool2d(kernel_size=1, stride=1)]
         return nn.Sequential(*layers)
+        
+    def forward_features_blockwise(self, x):
+        # VGG11 forward features
+        features = []
 
+        x = self.features[0](x)        
+        x = self.features[1](x); features.append(x) 
+        x = self.features[2](x)
+        x = self.features[3](x)
+        x = self.features[4](x); features.append(x)
+        x = self.features[5](x)
+        x = self.features[6](x)
+        x = self.features[7](x); features.append(x)
+        x = self.features[8](x)
+        x = self.features[9](x); features.append(x)
+        x = self.features[10](x)
+        x = self.features[11](x)
+        x = self.features[12](x); features.append(x)
+        x = self.features[13](x)
+        x = self.features[14](x)
+        x = self.features[15](x); features.append(x)
+        x = self.features[16](x)
+        x = self.features[17](x); features.append(x)
+        x = self.features[18](x)
+        x = self.features[19](x); features.append(x)
+
+        return features
 
 def test():
     net = VGG('VGG11')
