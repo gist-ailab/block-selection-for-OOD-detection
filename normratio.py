@@ -70,7 +70,8 @@ def eval():
     model.load_state_dict((torch.load(save_path+'/last.pth.tar', map_location = device)['state_dict']))
     model.to(device)
     model.eval()
-
+    
+    print(model)
     calculate_layer(model, train_loader, jigsaw_loader, num_blocks, device)
 
 

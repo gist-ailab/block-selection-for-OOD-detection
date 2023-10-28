@@ -7,8 +7,8 @@ import torchvision
 from torchvision import transforms
 from torchvision import datasets as dset
 
-mean = (0.4914, 0.4821, 0.4465)
-std = (0.2470, 0.2435, 0.2616)
+mean = (0.5, 0.5, 0.5)
+std = (0.5, 0.5, 0.5)
 
 size = 32
 

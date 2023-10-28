@@ -93,7 +93,7 @@ def eval():
         model.sblock = 10
     if 'vgg11' == args.net:
         model = vgg.VGG(vgg_name = 'VGG11', num_classes = num_classes)
-        model.sblock = 4
+        model.sblock = 5
 
         
     model.load_state_dict((torch.load(save_path+'/last.pth.tar', map_location = device)['state_dict']))
@@ -107,10 +107,10 @@ def eval():
 
     preds_in = calculate_score(model, valid_loader, device).cpu()
     OOD_results(preds_in, model, get_svhn('../svhn', batch_size), device, args.method+'-SVHN', f)
-    OOD_results(preds_in, model, get_ood('/SSDe/yyg/data/ood-set/textures/images'), device, args.method+'-TEXTURES', f) # Textures
-    OOD_results(preds_in, model, get_ood('/SSDe/yyg/data/ood-set/LSUN'), device, args.method+'-LSUN-crop', f) # LSUN(c)
-    OOD_results(preds_in, model, get_ood('/SSDe/yyg/data/ood-set/LSUN_resize'), device, args.method+'-LSUN-resize', f) #LSUN(r)
-    OOD_results(preds_in, model, get_ood('/SSDe/yyg/data/ood-set/iSUN'), device, args.method+'-iSUN', f) #iSUN
+    OOD_results(preds_in, model, get_ood('../ood-set/textures/images'), device, args.method+'-TEXTURES', f) # Textures
+    OOD_results(preds_in, model, get_ood('../ood-set/LSUN'), device, args.method+'-LSUN-crop', f) # LSUN(c)
+    OOD_results(preds_in, model, get_ood('../ood-set/LSUN_resize'), device, args.method+'-LSUN-resize', f) #LSUN(r)
+    OOD_results(preds_in, model, get_ood('../ood-set/iSUN'), device, args.method+'-iSUN', f) #iSUN
     OOD_results(preds_in, model, get_places('/SSDd/yyg/data/places256'), device, args.method+'-Places365', f)
     f.close()
 
