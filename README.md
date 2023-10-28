@@ -15,7 +15,7 @@ Currently, this code supports for the CIFAR10 benchmark with ResNet18, WideResNe
 - [x] FeatureNorm has been released
 - [ ] pretrained checkpoints 
 - [x] Environment settings and Train & Evaluation Readme
-- [ ] Code for all architectures
+- [x] Code for all architectures
 
 
 # Getting Started
