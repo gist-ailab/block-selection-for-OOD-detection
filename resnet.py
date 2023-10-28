@@ -147,6 +147,30 @@ class ResNet(nn.Module):
 
     def forward_features_blockwise(self, x):
         features = []
+        x = model.conv1(x)
+        x = model.bn1(x)
+        x = model.act1(x)
+
+        x = model.layer1[0](x)
+        features.append(x)
+        x = model.layer1[1](x)
+        features.append(x)
+
+        x = model.layer2[0](x)    
+        features.append(x)
+        x = model.layer2[1](x)
+        features.append(x)
+
+        x = model.layer3[0](x)
+        features.append(x)
+        x = model.layer3[1](x)
+        features.append(x)
+        
+        x = model.layer4[0](x)
+        features.append(x)
+        x = model.layer4[1](x)
+        features.append(x)
+        return features
 
 def resnet18(**kwargs):
     return ResNet(BasicBlock, [2, 2, 2, 2], **kwargs)

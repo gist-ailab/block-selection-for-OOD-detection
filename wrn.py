@@ -130,3 +130,23 @@ class WideResNet(nn.Module):
         out = F.avg_pool2d(out, 8)
         out = out.view(-1, self.nChannels)
         return out
+
+    def forward_features_blockwise(self, x):
+        features = []
+        x = model.conv1(x)           
+        
+        x = model.block1.layer[0](x); features.append(x)
+        x = model.block1.layer[1](x); features.append(x)   
+        x = model.block1.layer[2](x); features.append(x)     
+        x = model.block1.layer[3](x); features.append(x)
+
+        x = model.block2.layer[0](x); features.append(x)
+        x = model.block2.layer[1](x); features.append(x)
+        x = model.block2.layer[2](x); features.append(x)
+        x = model.block2.layer[3](x); features.append(x)
+
+        x = model.block3.layer[0](x); features.append(x)
+        x = model.block3.layer[1](x); features.append(x)
+        x = model.block3.layer[2](x); features.append(x)
+        x = model.block3.layer[3](x); features.append(x)
+        return features
