@@ -25,22 +25,12 @@ def calculate_norm(model, loader, device):
         for batch_idx, (inputs, t) in enumerate(loader):
             x = inputs.to(device)         
             # ResNet
-            x = model.conv1(x)
-            x = model.bn1(x)
-            x = model.act1(x)
+            features = model.forward_features_blockwise(x)
+            features = features[model.sblock]
 
-            x = model.layer1[0](x)
-            x = model.layer1[1](x)                   
-            x = model.layer2[0](x)
-            x = model.layer2[1](x)
-            x = model.layer3[0](x)    
-            x = model.layer3[1](x)  
-            x = model.layer4[0](x)          
-            norm2 = torch.norm(x, p=2, dim=[2,3])
-            norm2 = norm2.mean(dim=1) 
-            x = model.layer4[1](x)          
-
-            predictions.append(norm2)
+            # Norm calculation
+            norm = torch.norm(F.relu(features), dim=[2, 3]).mean(1)
+            predictions.append(norm)
     predictions = torch.cat(predictions).to(device)
     return predictions            
 
@@ -97,10 +87,14 @@ def eval():
 
     if 'resnet18' == args.net:
         model = resnet.resnet18(num_classes = num_classes)
+        model.sblock = 6
     if 'wrn28' == args.net:
         model = wrn.WideResNet(depth=28, widen_factor=10, num_classes=num_classes)
+        model.sblock = 10
     if 'vgg11' == args.net:
         model = vgg.VGG(vgg_name = 'VGG11', num_classes = num_classes)
+        model.sblock = 4
+
         
     model.load_state_dict((torch.load(save_path+'/last.pth.tar', map_location = device)['state_dict']))
     model.to(device)
@@ -112,7 +106,7 @@ def eval():
     f.write('Accuracy for ValidationSet: {}\n'.format(str(valid_accuracy)))
 
     preds_in = calculate_score(model, valid_loader, device).cpu()
-    OOD_results(preds_in, model, get_svhn('/SSDe/yyg/data/svhn', batch_size), device, args.method+'-SVHN', f)
+    OOD_results(preds_in, model, get_svhn('../svhn', batch_size), device, args.method+'-SVHN', f)
     OOD_results(preds_in, model, get_ood('/SSDe/yyg/data/ood-set/textures/images'), device, args.method+'-TEXTURES', f) # Textures
     OOD_results(preds_in, model, get_ood('/SSDe/yyg/data/ood-set/LSUN'), device, args.method+'-LSUN-crop', f) # LSUN(c)
     OOD_results(preds_in, model, get_ood('/SSDe/yyg/data/ood-set/LSUN_resize'), device, args.method+'-LSUN-resize', f) #LSUN(r)
