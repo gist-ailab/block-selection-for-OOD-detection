@@ -6,6 +6,8 @@ import argparse
 
 from utils import *
 import resnet
+import wrn
+import vgg
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--net','-n', default = 'resnet18', type=str)
@@ -93,9 +95,12 @@ def eval():
     if 'cifar' in args.data:
         train_loader, valid_loader = get_cifar(args.data, dataset_path, batch_size, eval=True)
 
-    import resnet
-    if args.net =='resnet18':
-        model = resnet.resnet18(num_classes=num_classes)
+    if 'resnet18' == args.net:
+        model = resnet.resnet18(num_classes = num_classes)
+    if 'wrn28' == args.net:
+        model = wrn.WideResNet(depth=28, widen_factor=10, num_classes=num_classes)
+    if 'vgg11' == args.net:
+        model = vgg.VGG(vgg_name = 'VGG11', num_classes = num_classes)
         
     model.load_state_dict((torch.load(save_path+'/last.pth.tar', map_location = device)['state_dict']))
     model.to(device)

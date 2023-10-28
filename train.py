@@ -66,7 +66,7 @@ def train():
     if 'wrn28' == args.net:
         model = wrn.WideResNet(depth=28, widen_factor=10, num_classes=num_classes)
     if 'vgg11' == args.net:
-        model = vgg.VGG(vgg_name = 'vgg11', num_classes = num_classes)
+        model = vgg.VGG(vgg_name = 'VGG11', num_classes = num_classes)
     model.to(device)
     
     criterion = torch.nn.CrossEntropyLoss()    

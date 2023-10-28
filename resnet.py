@@ -145,6 +145,9 @@ class ResNet(nn.Module):
         out_ = torch.flatten(out_, 1)
         return out
 
+    def forward_features_blockwise(self, x):
+        features = []
+
 def resnet18(**kwargs):
     return ResNet(BasicBlock, [2, 2, 2, 2], **kwargs)
 
